@@ -15,21 +15,17 @@ const listContacts = async () => {
  }
 
 const getContactById = async (contactId) => {
-  const collection = await client.db().collection(nameColection)
+  const collection = await getColection(DB, 'contacts')
   const objId = new ObjectId(contactId)
   const result = await collection.find({_id: objId}).toArray()
-  return await result
+  return {...result, createdAt: objId.getTimestamp()}
 }
 
 const removeContact = async (contactId) => {
-  const collection = await client.db().collection(nameColection)
-  const index = contacts.findIndex((contact) => contact.id === contactId)
-  if (index !== -1) {
-    const [contact] = contacts.splice(index, 1)
-    await db.write(contacts)
-    return contact
-  }
-  return null
+  const collection = await getColection(DB, 'contacts')
+  const objId = new ObjectId(contactId)
+  const {value: result} = await collection.findOneAndDelete({ _id: objId })
+  return result
 }
 
 const addContact = async (body) => {
@@ -43,14 +39,14 @@ const addContact = async (body) => {
 }
 
 const updateContact = async (contactId, body) => {
-  const collection = await client.db().collection(nameColection)
-  const index = contacts.findIndex((contact) => contact.id === contactId)
-  if (index !== -1) {
-    contacts[index] = {...contacts[index], ...body}
-    await db.write(contacts)
-    return contacts[index]
-  }
-  return null
+  const collection = await getColection(DB, 'contacts')
+  const objId = new ObjectId(contactId)
+  const {value: result} = await collection.findOneAndUpdate(
+    { _id: objId },
+    { $set: body },
+    {returnDocument: 'after'}
+  )
+  return result
 }
 
 module.exports = {

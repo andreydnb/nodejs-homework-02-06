@@ -1,7 +1,7 @@
 const express = require('express')
 const contactModel = require('../../models/contacts.js')
-const { schemaCreateContact, schemaUpdateContact } = require('./contacts-validation-schemes')
-const {validateBody} = require('../../middlewares/validation')
+const { schemaCreateContact, schemaUpdateContact, schemaMongoId } = require('./contacts-validation-schemes')
+const {validateBody, validateParams} = require('../../middlewares/validation')
 
 const router = express.Router()
 
@@ -23,15 +23,22 @@ router.post('/', validateBody(schemaCreateContact), async (req, res, next) => {
   res.status(201).json({ status: 'succsess', code: 201, payload: {contact}})
 })
 
-router.delete('/:contactId', async (req, res, next) => {
-  const contact = await contactModel.removeContact(req.params.contactId)
+router.delete('/:contactId', validateParams(schemaMongoId), async (req, res, next) => {
+  try {
+    const contact = await contactModel.removeContact(req.params.contactId)
   if (contact) {
     return res.json({ status: 'succsess', code: 200, payload: {contact}})
   }
   return res.status(404).json({ status: 'error', code: 404, message: 'Not found'})
+  } catch (error) {
+    next(error)
+  }
+  
 })
 
-router.put('/:contactId', validateBody(schemaUpdateContact), async (req, res, next) => {
+router.put('/:contactId',
+  [validateBody(schemaUpdateContact),validateParams(schemaMongoId)],
+  async (req, res, next) => {
   const contact = await contactModel.updateContact(req.params.contactId, req.body)
   if (contact) {
     return res.json({ status: 'succsess', code: 200, payload: {contact}})
