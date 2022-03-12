@@ -1,6 +1,7 @@
 const app = require('./app')
-const db = require('./models/db')
 const mongoose = require('mongoose')
+
+require('dotenv').config()
 const uri = process.env.DB_HOST;
 
 mongoose.connect(uri)
@@ -11,6 +12,14 @@ mongoose.connect(uri)
     console.log(error.message)
     process.exit(1)
   })
+
+  process.on('SIGINT', async () => {
+    console.log('Disconnect from DB')
+    process.exit(1)
+})
+
+
+
 
 
 
