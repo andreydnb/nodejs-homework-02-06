@@ -1,15 +1,15 @@
-const {cntrAddContact} = require('./addContact')
-const {cntrGetContactById} = require('./getContactById')
-const {cntrListContacts} = require('./listContacts')
-const {cntrRemoveContact} = require('./removeContact')
-const { cntrUpdateContacts } = require('./updateContact')
-const { cntrPatchContact } = require('./patchContact')
+const {addContact} = require('./addContact')
+const {getContactById} = require('./getContactById')
+const {listContacts} = require('./listContacts')
+const {removeContact} = require('./removeContact')
+const { updateContacts } = require('./updateContact')
+const { patchContact } = require('./patchContact')
 
 module.exports = {
-    cntrAddContact,
-    cntrGetContactById,
-    cntrListContacts,
-    cntrRemoveContact,
-    cntrUpdateContacts,
-    cntrPatchContact
+    addContact,
+    getContactById,
+    listContacts,
+    removeContact,
+    updateContacts,
+    patchContact
 }

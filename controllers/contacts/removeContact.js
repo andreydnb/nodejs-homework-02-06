@@ -1,6 +1,6 @@
 const contactModel = require('../../models/contacts/index')
 
-const cntrRemoveContact = async (req, res, next) => {
+const removeContact = async (req, res, next) => {
   try {
     const contact = await contactModel.removeContact(req.params.contactId)
   if (contact) {
@@ -13,4 +13,4 @@ const cntrRemoveContact = async (req, res, next) => {
   
 }
 
-module.exports = {cntrRemoveContact}
+module.exports = {removeContact}

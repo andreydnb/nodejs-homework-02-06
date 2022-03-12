@@ -1,6 +1,6 @@
 const contactModel = require('../../models/contacts/index')
 
-const cntrUpdateContacts = async (req, res, next) => {
+const updateContacts = async (req, res, next) => {
   const contact = await contactModel.updateContact(req.params.contactId, req.body)
   if (contact) {
     return res.json({ status: 'succsess', code: 200, payload: {contact}})
@@ -8,4 +8,4 @@ const cntrUpdateContacts = async (req, res, next) => {
   return res.status(404).json({ status: 'error', code: 404, message: 'Not found'})
 }
 
-module.exports = {cntrUpdateContacts}
+module.exports = {updateContacts}
