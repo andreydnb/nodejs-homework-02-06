@@ -81,9 +81,14 @@ const schemaMongoId = Joi.object({
     contactId: Joi.objectId().required(),
 })
 
+const schemaFavorite = Joi.object({
+    favorite: Joi.valid('true', 'false').required()
+})
+
 module.exports = {
   Contact,
   schemaCreateContact,
   schemaUpdateContact,
-  schemaMongoId
+  schemaMongoId,
+  schemaFavorite
 }
