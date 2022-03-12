@@ -1,6 +1,7 @@
 const express = require('express')
-const contactModel = require('../../models/contacts.js')
-const { schemaCreateContact, schemaUpdateContact, schemaMongoId } = require('./contacts-validation-schemes')
+const contactModel = require('../../models/contacts/index')
+const {listContacts} = require('../../models/contacts/listContacts')
+const { schemaCreateContact, schemaUpdateContact, schemaMongoId } = require('../../models/contacts')
 const {validateBody, validateParams} = require('../../middlewares/validation')
 
 const router = express.Router()
@@ -45,5 +46,14 @@ router.put('/:contactId',
   }
   return res.status(404).json({ status: 'error', code: 404, message: 'Not found'})
 })
+
+router.patch('/:contactId/favorite',validateParams(schemaMongoId),
+  async (req, res, next) => {
+  const contact = await contactModel.putContact(req.params.contactId, req.body)
+  if (contact) {
+    return res.json({ status: 'succsess', code: 200, payload: {contact}})
+  }
+  return res.status(404).json({ status: 'error', code: 404, message: 'Not found'})
+  })
 
 module.exports = router

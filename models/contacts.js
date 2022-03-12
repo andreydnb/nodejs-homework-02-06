@@ -1,58 +1,89 @@
-const {ObjectId} = require('mongodb')
-const DB = require('./db')
+const {Schema, model} = require('mongoose')
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi)
 
-const getColection = async (db, nameColection) => {
-  const client = await db
-  const collection = await client.db().collection(nameColection)
-  return collection
-} 
+const contactScheme = Schema({ 
+    name: {
+      type: String,
+      required: [true, 'Set name for contact'],
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
+}, { versionKey: false, timestamps: true })
 
-const listContacts = async () => {
-  const collection = await getColection(DB, 'contacts')
-  const result = await collection.find({}).toArray()
-  console.log(result)
-  return await result
- }
+const Contact = model ("contact", contactScheme)
 
-const getContactById = async (contactId) => {
-  const collection = await getColection(DB, 'contacts')
-  const objId = new ObjectId(contactId)
-  const result = await collection.find({_id: objId}).toArray()
-  return {...result, createdAt: objId.getTimestamp()}
-}
+const schemaCreateContact = Joi.object({
+    name: Joi.string()
+        .min(3)
+        .max(30)
+        .messages({
+            'any.required': 'Поле Name обязательное', 
+            'string.empty': 'Поле Name не может быть пустым'
+        })
+        .required(),
 
-const removeContact = async (contactId) => {
-  const collection = await getColection(DB, 'contacts')
-  const objId = new ObjectId(contactId)
-  const {value: result} = await collection.findOneAndDelete({ _id: objId })
-  return result
-}
+    phone: Joi.string()
+        .pattern(/^[(][\d]{3}[)]\s[\d]{3}[-][\d]{4}/)
+        .messages({
+            'any.required': 'Поле Phone обязательное',
+            'string.empty': 'Поле Phone не может быть пустым'
+        })
+        .required(),
 
-const addContact = async (body) => {
-  const collection = await getColection(DB, 'contacts')
-  const newContact = {
-    ...body
-  }
-  const result = await collection.insertOne(newContact)
-  return result
 
-}
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ua'] } })
+        .messages({
+            'any.required': 'Поле Email обязательное',
+            'string.empty': 'Поле Email не может быть пустым'
+        })
+        .required()
+})
 
-const updateContact = async (contactId, body) => {
-  const collection = await getColection(DB, 'contacts')
-  const objId = new ObjectId(contactId)
-  const {value: result} = await collection.findOneAndUpdate(
-    { _id: objId },
-    { $set: body },
-    {returnDocument: 'after'}
-  )
-  return result
-}
+const schemaUpdateContact = Joi.object({
+    name: Joi.string()
+        .min(3)
+        .max(30)
+        .messages({
+            'any.required': 'Поле Name обязательное', 
+            'string.empty': 'Поле Name не может быть пустым'
+        })
+        .optional(),
+
+    phone: Joi.string()
+        .pattern(/^[(][\d]{3}[)]\s[\d]{3}[-][\d]{4}/)
+        .messages({
+            'any.required': 'Поле Phone обязательное',
+            'string.empty': 'Поле Phone не может быть пустым'
+        })
+        .optional(),
+
+
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ua'] } })
+        .messages({
+            'any.required': 'Поле Email обязательное',
+            'string.empty': 'Поле Email не может быть пустым'
+        })
+        .optional()
+})
+
+const schemaMongoId = Joi.object({
+    contactId: Joi.objectId().required(),
+})
 
 module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
+  Contact,
+  schemaCreateContact,
+  schemaUpdateContact,
+  schemaMongoId
 }
