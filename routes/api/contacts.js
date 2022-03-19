@@ -1,25 +1,20 @@
 const express = require('express')
+const { schemaCreateContact, schemaUpdateContact, schemaMongoId, schemaFavorite } = require('../../models/contacts')
+const { validateBody, validateParams } = require('../../middlewares/validation')
+const ctrlTask = require('../../controllers/contacts/index')
 
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/', ctrlTask.listContacts)
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/:contactId',  validateParams(schemaMongoId), ctrlTask.getContactById)
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.post('/', validateBody(schemaCreateContact), ctrlTask.addContact)
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.delete('/:contactId', validateParams(schemaMongoId), ctrlTask.removeContact)
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.put('/:contactId',[validateBody(schemaUpdateContact),validateParams(schemaMongoId)],ctrlTask.updateContacts)
+
+router.patch('/:contactId/favorite',validateBody(schemaFavorite), ctrlTask.patchContact)
 
 module.exports = router
