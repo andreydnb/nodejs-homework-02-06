@@ -1,10 +1,8 @@
-const { ObjectId } = require('mongodb')
 const {Contact} = require('../contacts')
 
 const updateContact = async (contactId, body) => {
-  const objId = new ObjectId(contactId)
-  const result = await Contact.findByIdAndUpdate(
-    objId,
+  const result = await Contact.findOneAndUpdate(
+    {_id: contactId},
     body,
     {new: true}
   )

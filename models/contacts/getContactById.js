@@ -1,10 +1,8 @@
-const { ObjectId } = require('mongodb')
 const {Contact} = require('../contacts')
 
 const getContactById = async (contactId) => {
-  const objId = new ObjectId(contactId)
-  const result = await Contact.find({_id: objId})
-  return {...result}
+  const result = await Contact.findOne({_id: contactId})
+  return result
 }
 
 module.exports = {getContactById}
