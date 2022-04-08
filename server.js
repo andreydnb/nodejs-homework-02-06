@@ -1,7 +1,6 @@
 const app = require('./app')
 const mongoose = require('mongoose')
 
-require('dotenv').config()
 const uri = process.env.DB_HOST;
 
 mongoose.connect(uri)

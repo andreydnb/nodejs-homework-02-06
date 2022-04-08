@@ -1,7 +1,7 @@
 const express = require('express')
-const { schemaCreateContact, schemaUpdateContact, schemaMongoId, schemaFavorite } = require('../../models/contacts')
-const { validateBody, validateParams } = require('../../middlewares/validation')
-const ctrlTask = require('../../controllers/contacts/index')
+const { schemaCreateContact, schemaUpdateContact, schemaMongoId, schemaFavorite } = require('../../../models/contacts')
+const { validateBody, validateParams } = require('../../../middlewares/validation')
+const ctrlTask = require('../../../controllers/contacts/index')
 
 const router = express.Router()
 
