@@ -6,7 +6,8 @@ const SECRET_KEY = process.env.JWT_SECRET_KEY
 
 const guard = async (req, res, next) => {
     const token = req.get('Authorization')?.split(' ')[1]
-    if (!verifyToken(token)) {
+    const isValid = verifyToken(token)
+    if (!isValid) {
         return res.status(HttpStatusCode.UNAUTHORIZED).send({
             status: 'error',
             code: HttpStatusCode.UNAUTHORIZED,
@@ -26,7 +27,7 @@ const guard = async (req, res, next) => {
     next()
 }
 
-const verifyToken = async (token) => {
+const verifyToken = (token) => {
     try {
         const t = jwt.verify(token, SECRET_KEY)
         return !!t
