@@ -1,11 +1,10 @@
-const contactModel = require('../../models/contacts/index')
+const ContactService = require('../../services/contacts')
+const {HttpStatusCode} = require('../../libs/constants')
 
-const getContactById = async (req, res, next) => {
-  const contact = await contactModel.getContactById(req.params.contactId)
-  if (contact) {
-    return res.json({ status: 'succsess', code: 200, payload: {contact}})
-  }
-  return res.status(404).json({ status: 'error', code: 404, message: 'Not found'})
+const getContactById = async (req, res) => {
+  const contact = await ContactService.getById(req.params.contactId, req.user)
+  
+    return res.json({ status: 'succsess', code: HttpStatusCode.OK, payload: {contact}})
 }
 
 module.exports = {getContactById}

@@ -1,6 +1,8 @@
-const contactModel = require('../../models/contacts/index')
+const contactModel = require('../../repository/contacts/index')
+const ContactService = require('../../services/contacts')
 
-const patchContact = async (req, res, next) => {
+
+const patchContact = async (req, res) => {
   const contact = await contactModel.putContact(req.params.contactId, req.body)
   if (contact) {
     return res.json({ status: 'succsess', code: 200, payload: {contact}})

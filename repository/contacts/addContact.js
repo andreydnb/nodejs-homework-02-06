@@ -1,4 +1,4 @@
-const {Contact} = require('../contacts')
+const {Contact} = require('../../models/contacts')
 
 const addContact = async (body) => {
   const newContact = {

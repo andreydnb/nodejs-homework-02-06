@@ -1,16 +1,9 @@
-const contactModel = require('../../models/contacts/index')
+const ContactService = require('../../services/contacts')
+const {HttpStatusCode} = require('../../libs/constants')
 
-const removeContact = async (req, res, next) => {
-  try {
-    const contact = await contactModel.removeContact(req.params.contactId)
-  if (contact) {
-    return res.json({ status: 'succsess', code: 200, payload: {contact}})
-  }
-  return res.status(404).json({ status: 'error', code: 404, message: 'Not found'})
-  } catch (error) {
-    next(error)
-  }
-  
+const removeContact = async (req, res) => {
+    const contact = await ContactService.remove(req.params.contactId, req.user)
+    return res.json({ status: 'succsess', code: HttpStatusCode.OK, payload: {contact}})
 }
 
 module.exports = {removeContact}
