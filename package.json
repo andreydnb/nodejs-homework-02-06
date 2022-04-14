@@ -19,6 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "loader": "^2.1.1",
     "mongoose": "^6.2.5",
+    "mongoose-paginate-v2": "^1.6.3",
     "morgan": "1.10.0"
   },
   "devDependencies": {
