@@ -10,17 +10,17 @@ class ContactService {
         let sortCriteria = null
         let select = null
         if (sortBy) {
-            sortCriteria = {[sortBy]:1}
+            sortCriteria = { [sortBy]: 1 }
         }
         if (sortByDesc) {
-            sortCriteria = {[sortByDesc]:-1}
+            sortCriteria = { [sortByDesc]: -1 }
         }
         if (filter) {
             select = filter.split('|').join('.')
-        } 
-        const {total, result: contacts} = await contactModel.listContacts({limit,skip,sortCriteria, select}, user)
-        return {total, contacts}
-     }
+        }
+        const result = await contactModel.listContacts({ limit, skip, sortCriteria, select }, user)
+        return result
+    }
     async getById( id, user ) {
         const contact = await contactModel.getContactById(id, user)
         if (!contact) {
