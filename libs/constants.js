@@ -12,8 +12,9 @@ const HttpStatusCode = {
 }
 
 const Role = {
-    ADMIN: 'admin',
-    USER: 'user'
+    STARTER: 'starter',
+    PRO: 'pro',
+    BUSINESS: 'business'
 }
 
 module.exports = {HttpStatusCode, Role}

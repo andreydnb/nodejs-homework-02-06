@@ -13,9 +13,8 @@ class AuthService {
         const newUser = await Users.create(body)
         return {
             id: newUser.id,
-            name: newUser.name,
             email: newUser.email,
-            role: newUser.role,
+            subscription: newUser.subscription,
         }
      }
     async login({ email, password }) { 
@@ -44,6 +43,14 @@ class AuthService {
         }
         return user
     }
+    async getCurrentUser(token) {
+        const user = await Users.findByToken(token)
+        if (!user) {
+            return null
+        }
+        return user
+    }
+    
     generateToken(user) {
         const payload = { id: user.id }
         const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' })

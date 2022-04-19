@@ -21,4 +21,5 @@ const logout = async (req, res) => {
     return res.status(HttpStatusCode.NO_CONTENT).json()
 }
 
+
 module.exports = {registration, login, logout}

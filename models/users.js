@@ -1,16 +1,16 @@
 const { Schema, model } = require('mongoose')
 const { Role } = require('../libs/constants')
 const bcrypt = require('bcryptjs')
+const Joi = require('joi');
+const { joiPassword } = require('joi-password')
+Joi.objectId = require('joi-objectid')(Joi)
 
 
 const userScheme = Schema({ 
-    name: {
-      type: String,
-      default: 'Guest',
-    },
+    
     email: {
         type: String,
-        required: [true, 'Set email for user'],
+        required: [true, 'Email is required'],
         unique: true, validate(value) {
             if (!value.includes('@')) {
                 throw new Error ('Email must be valid')
@@ -19,13 +19,13 @@ const userScheme = Schema({
     },
     password: {
         type: String,
-        required: [true, 'Password required'],
+        required: [true, 'Password is required'],
     },
     token: {
         type: String,
-        default: '',
+        default: null,
     },
-    role: {
+    subscription: {
         type: String,
         enum: {values: Object.values(Role)},
         default: Role.USER
@@ -52,4 +52,29 @@ userScheme.methods.isValidPassword = async function (password) {
 
 const User = model("user", userScheme)
 
-module.exports = User
+const schemaCreateUser = Joi.object({
+    
+    password: joiPassword
+                        .string()
+                        .minOfSpecialCharacters(2)
+                        .minOfLowercase(2)
+                        .minOfUppercase(2)
+                        .minOfNumeric(2)
+                        .noWhiteSpaces()
+                        .required(),
+
+
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ua'] } })
+        .messages({
+            'any.required': 'Поле Email обязательное',
+            'string.empty': 'Поле Email не может быть пустым'
+        })
+        .required()
+})
+
+
+
+
+
+module.exports = User, schemaCreateUser
