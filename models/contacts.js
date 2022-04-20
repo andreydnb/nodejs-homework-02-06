@@ -1,4 +1,5 @@
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi)
 
@@ -17,8 +18,14 @@ const contactScheme = Schema({
       type: Boolean,
       default: false,
     },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required:true,
+    }
 }, { versionKey: false, timestamps: true })
 
+contactScheme.plugin(mongoosePaginate);
 const Contact = model ("contact", contactScheme)
 
 const schemaCreateContact = Joi.object({
