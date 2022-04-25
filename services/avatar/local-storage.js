@@ -10,19 +10,12 @@ class LocalStorage {
     }
 
     async save() {
-        const { path: pathFile } = this.file
-        const { id } = this.user
-        const urlOfAvatar = `/avatars/${id}`
-        const pathOfAvatar = path.join(
-            __dirname,
-            '..',
-            '..',
-            '..',
-            'public',
-            urlOfAvatar,
+        const destination = path.join(this.static, this.user.id)
+        await fs.mkdir(destination, { recursive: true })
+        await fs.rename(this.file.path, path.join(destination, this.file.filename))
+        const urlOfAvatar = path.normalize(path.join(this.user.id, this.file.filename),
         )
-        await fs.mkdir(pathOfAvatar, { recursive: true })
-        await fs.rename(pathFile, path.join(pathOfAvatar, 'avatar.jpg'))
+        await Users.updateAvatar(this.user.id, urlOfAvatar)
         return urlOfAvatar
 
     }

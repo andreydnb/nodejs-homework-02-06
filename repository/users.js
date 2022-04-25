@@ -1,4 +1,5 @@
 const { token } = require('morgan')
+const { avatar } = require('../controllers/avatars')
 const User = require('../models/users')
 
 const findById = async (id) => {
@@ -18,4 +19,8 @@ const updateToken = async (id, token) => {
     return await User.findByIdAndUpdate(id, {token})
 }
 
-module.exports = {findById, findByEmail, create, updateToken}
+const updateAvatar = async (id, avatar) => {
+    return await User.findByIdAndUpdate(id, {avatar})
+}
+
+module.exports = {findById, findByEmail, create, updateToken, updateAvatar}
