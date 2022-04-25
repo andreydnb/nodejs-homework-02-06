@@ -4,6 +4,7 @@ const cors = require('cors')
 const helmet = require('helmet');
 const contactsRouter = require('./routes/api/contacts/contacts')
 const authRouter = require('./routes/api/auth/index')
+const avatarsRouter = require('./routes/api/avatars')
 const limiter = require('./middlewares/rate-limiter')
 
 
@@ -19,6 +20,7 @@ app.use(cors())
 app.use(express.json({limit: 10000}))
 
 app.use('/api/users', authRouter)
+app.use('/api/avatars', avatarsRouter)
 app.use('/api/contacts', contactsRouter)
 
 app.use((req, res) => {
