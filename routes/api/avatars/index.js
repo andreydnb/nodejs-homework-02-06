@@ -1,5 +1,5 @@
 const express = require('express')
-const { avatar} = require('../../../controllers/avatars')
+const  {avatar} = require('../../../controllers/avatars')
 const {wrapper: wrapperError} = require('../../../middlewares/error-handler')
 const guard = require('../../../middlewares/guard')
 const upload = require('../../../middlewares/upload')

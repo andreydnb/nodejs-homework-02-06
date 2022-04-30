@@ -33,7 +33,9 @@ const userScheme = Schema({
     },
     avatar: {
         type: String,
-        default: null 
+        default: function () {
+            return gravatar.url(this.email, {s: '250'}, true)
+        }
     },
      cloudId: {
         type: String,
