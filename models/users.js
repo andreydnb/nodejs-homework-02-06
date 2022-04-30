@@ -33,10 +33,12 @@ const userScheme = Schema({
     },
     avatar: {
         type: String,
-        default: function () {
-            return gravatar.url(this.email, {s: '250'}, true)
-        }
+        default: null 
     },
+     cloudId: {
+        type: String,
+        default: null
+    }
 
 }, {
     versionKey: false,
@@ -85,4 +87,4 @@ const schemaCreateUser = Joi.object({
 
 
 
-module.exports = User, schemaCreateUser
+module.exports =  User, schemaCreateUser 

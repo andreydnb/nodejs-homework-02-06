@@ -17,4 +17,6 @@ const Role = {
     BUSINESS: 'business'
 }
 
-module.exports = {HttpStatusCode, Role}
+const FolderCloud = 'samples'
+
+module.exports = {HttpStatusCode, Role, FolderCloud}
