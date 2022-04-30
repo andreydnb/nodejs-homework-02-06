@@ -1,6 +1,6 @@
 const { token } = require('morgan')
 const { avatar } = require('../controllers/avatars')
-const User = require('../models/users')
+const {User} = require('../models/users')
 
 const findById = async (id) => {
     return await User.findById(id)

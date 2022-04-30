@@ -89,4 +89,4 @@ const schemaCreateUser = Joi.object({
 
 
 
-module.exports =  User, schemaCreateUser 
+module.exports =  {User, schemaCreateUser }
