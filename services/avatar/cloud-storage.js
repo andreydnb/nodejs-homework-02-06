@@ -31,7 +31,7 @@ class CloudStorage {
         await updateAvatar(
             this.user.id,
             urlOfAvatar,
-            cloudId.replace(`${FolderCloud}/`, '')
+            cloudId.replace(`${FolderCloud}/`, ' ')
         )
         try {
            await unlink(this.file.path) 
