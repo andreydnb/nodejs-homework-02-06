@@ -2,8 +2,7 @@ const cloudinary = require('cloudinary')
 const { promisify } = require('util')
 const { unlink } = require('fs/promises')
 const Users = require('../../repository/users')
-const {FolderCloud} = require('../../libs/constants')
-const req = require('express/lib/request')
+const FolderCloud = require('../../libs/constants')
 
 cloudinary.config({ 
   cloud_name: 'eknis', 
@@ -32,7 +31,7 @@ class CloudStorage {
         await Users.updateAvatar(
             this.user.id,
             urlOfAvatar,
-            cloudId.replace(`${FolderCloud}/`, '')
+            cloudId.replace(`${FolderCloud}/`, ' ')
         )
         try {
            await unlink(this.file.path) 
