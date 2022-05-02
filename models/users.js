@@ -1,7 +1,8 @@
-const { Schema, model } = require('mongoose')
-const { Role } = require('../libs/constants')
 const bcrypt = require('bcryptjs')
 const Joi = require('joi');
+const gravatar = require('gravatar')
+const { Schema, model } = require('mongoose')
+const { Role } = require('../libs/constants')
 const { joiPassword } = require('joi-password')
 Joi.objectId = require('joi-objectid')(Joi)
 
@@ -30,6 +31,17 @@ const userScheme = Schema({
         enum: {values: Object.values(Role)},
         default: Role.USER
     },
+    avatar: {
+        type: String,
+        default: function () {
+            return gravatar.url(this.email, {s: '250'}, true)
+        }
+    },
+     cloudId: {
+        type: String,
+        default: null
+    }
+
 }, {
     versionKey: false,
     timestamps: true,
@@ -77,4 +89,4 @@ const schemaCreateUser = Joi.object({
 
 
 
-module.exports = User, schemaCreateUser
+module.exports =  {User, schemaCreateUser }

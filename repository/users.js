@@ -1,5 +1,5 @@
 const { token } = require('morgan')
-const User = require('../models/users')
+const {User} = require('../models/users')
 
 const findById = async (id) => {
     return await User.findById(id)
@@ -18,4 +18,8 @@ const updateToken = async (id, token) => {
     return await User.findByIdAndUpdate(id, {token})
 }
 
-module.exports = {findById, findByEmail, create, updateToken}
+const updateAvatar = async (id, avatar, cloudId=null) => {
+    return await User.findByIdAndUpdate(id, {avatar, cloudId})
+}
+
+module.exports = {findById, findByEmail, create, updateToken, updateAvatar}    
