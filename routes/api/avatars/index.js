@@ -9,7 +9,7 @@ const router = express.Router()
 
 
 
-router.patch('/', guard, upload.single('avatar'), wrapperError(avatar))
+router.patch('/avatars', guard, upload.single('avatar'), wrapperError(avatar))
 
 
 
