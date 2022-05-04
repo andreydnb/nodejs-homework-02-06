@@ -9,7 +9,10 @@ class SenderNodemailer {
             auth: {
             user: process.env.USER_NODEMAILER, // generated ethereal user
             pass: process.env.PASSWORD_NODEMAILER, // generated ethereal password
-    },  
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
         }
     }
     async send(msg) {

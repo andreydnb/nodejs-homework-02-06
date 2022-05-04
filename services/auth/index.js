@@ -78,7 +78,7 @@ class AuthService {
         const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' })
        return token 
     }
-    async verifyUser(token) {
+    async verifyUser(verificationToken) {
         const user = await Users.findByToken(verificationToken)
         if (!user) {
             throw new CustomError(HttpStatusCode.BAD_REQUEST, 'Invalid Token!')
