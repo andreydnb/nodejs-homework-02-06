@@ -3,7 +3,7 @@ const Mailgen = require('mailgen')
 class EmailService {
     constructor(sender) {
         this.sender = sender
-        this.link = 'http://localhost:3000/'
+        this.link = 'https://3fce-195-177-124-227.eu.ngrok.io'
         this.mailgen = new Mailgen({
             theme: 'default',
             product: {
@@ -37,14 +37,8 @@ class EmailService {
             subject: 'Welcome to Contacts API',
             html: emailTemplate, 
         }
-        try {
-            const result = await this.sender.send(message)
-            console.log(result)
-        } catch (error) {
-            console.log(error)
-            return false
-            
-        }
+        const result = await this.sender.send(message)
+        return result
     }
 }
 

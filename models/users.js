@@ -9,7 +9,7 @@ Joi.objectId = require('joi-objectid')(Joi)
 
 
 const userScheme = Schema({ 
-    
+    name: {type: String, default: 'Guest'},
     email: {
         type: String,
         required: [true, 'Email is required'],
