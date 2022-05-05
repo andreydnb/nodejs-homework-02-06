@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const Joi = require('joi');
 const gravatar = require('gravatar')
+const {randomUUID} = require('crypto')
 const { Schema, model } = require('mongoose')
 const { Role } = require('../libs/constants')
 const { joiPassword } = require('joi-password')
@@ -8,7 +9,7 @@ Joi.objectId = require('joi-objectid')(Joi)
 
 
 const userScheme = Schema({ 
-    
+    name: {type: String, default: 'Guest'},
     email: {
         type: String,
         required: [true, 'Email is required'],
@@ -40,6 +41,15 @@ const userScheme = Schema({
      cloudId: {
         type: String,
         default: null
+    },
+     verify: {
+        type: Boolean,
+        default: false
+    },
+     verificationToken: {
+        type: String,
+         default: randomUUID(),
+        required: [true, 'Verify token is required']
     }
 
 }, {

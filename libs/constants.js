@@ -8,6 +8,7 @@ const HttpStatusCode = {
     CONFLICT: 409,
     TOO_MANY_REQUEST: 429,
     INTERNAL_SERVER_ERROR: 500,
+    SERVICE_UNAVAILABLE: 503,
 
 }
 
